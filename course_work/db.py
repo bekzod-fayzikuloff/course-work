@@ -92,6 +92,9 @@ def user_auth(conn_cursor, email, password):
     print(user)
 
 
+def pk(conn_cursor, table_name):
+    pass
+
 if __name__ == '__main__':
     db = DataBaseSQLite3('database.sqlite3')
     db.connect()
@@ -103,7 +106,7 @@ if __name__ == '__main__':
     # for user_data in users_data:
     #     add_user_to_db(cursor, *user_data)
 
-    #user_auth(cursor, 'mfittall7@usa.gov', 'fKJQVqPkVlkF')
+    user_auth(cursor, 'mfittall7@usa.gov', 'fKJQVqPkVlkF')
 
     db.commit()
     db.close()
