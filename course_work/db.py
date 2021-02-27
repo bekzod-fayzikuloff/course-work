@@ -32,18 +32,6 @@ users_data = [
 ]
 
 
-class User:
-    user_id = 0
-
-    def __init__(self, user_first_name, user_last_name, user_email, user_password):
-        User.user_id += 1
-        self.user_id = User.user_id
-        self.user_first_name = user_first_name
-        self.user_last_name = user_last_name
-        self.user_email = user_email
-        self.user_password = user_password
-
-
 class DataBaseSQLite3:
 
     def __init__(self, db_name='db.sqlite3'):
@@ -92,22 +80,44 @@ def user_auth(conn_cursor, email, password):
     print(user)
 
 
-def pk(conn_cursor, table_name):
-    pass
+def pk(conn_cursor):
+    conn_cursor.execute(f'SELECT userid from users')
+    users = conn_cursor.fetchall()
+    return int(users[-1][0]) + 1
 
-if __name__ == '__main__':
+
+def email_is_valid(email_):
+    if '@' not in email_:
+        return False
+    db = DataBaseSQLite3('database.sqlite3')
+    db.connect()
+
+    cursor = db.cursor()
+    sql_ = """ SELECT userid FROM users WHERE email=? """
+    cursor.execute(sql_, (email_,))
+    user = cursor.fetchone()
+    db.commit()
+    db.close()
+    if user:
+        return True, user[0]
+    return False
+
+
+def password_id_valid(user_id, password):
+    if password is None or len(password) < 8:
+        return False
     db = DataBaseSQLite3('database.sqlite3')
     db.connect()
     cursor = db.cursor()
-
-    # drop_table(cursor, 'users')
-    cursor.execute(sql)
-
-    # for user_data in users_data:
-    #     add_user_to_db(cursor, *user_data)
-
-    user_auth(cursor, 'mfittall7@usa.gov', 'fKJQVqPkVlkF')
-
+    sql_ = """ SELECT password FROM users WHERE userid=? """
+    cursor.execute(sql_, (user_id,))
+    user_password = cursor.fetchone()
     db.commit()
     db.close()
+    if password == user_password[0]:
+        return True
+    return False
 
+
+if __name__ == '__main__':
+    password_id_valid(1, 'testpassword')
