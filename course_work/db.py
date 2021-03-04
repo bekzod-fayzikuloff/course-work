@@ -63,10 +63,24 @@ class DataBaseSQLite3:
             print('Your need using connect method')
 
 
-def add_user_to_db(conn_cursor, user_id, user_first_name, user_last_name, user_email, user_password):
+def pk():
+    db = DataBaseSQLite3('database.sqlite3')
+    db.connect()
+    cursor = db.cursor()
+    cursor.execute(f'SELECT userid from users')
+    users = cursor.fetchall()
+    return int(users[-1][0]) + 1
+
+
+def add_user_to_db(user_id, user_first_name, user_last_name, user_email, user_password):
+    db = DataBaseSQLite3('database.sqlite3')
+    db.connect()
+    cursor = db.cursor()
     data = tuple([user_id, user_first_name, user_last_name, user_email, user_password])
     sql_ = """INSERT INTO users (userid, first_name, last_name, email, password) VALUES (?, ?, ?, ?, ?);"""
-    conn_cursor.execute(sql_, data)
+    cursor.execute(sql_, data)
+    db.commit()
+    db.close()
 
 
 def drop_table(conn_cursor, table_name):
@@ -78,12 +92,6 @@ def user_auth(conn_cursor, email, password):
     conn_cursor.execute('SELECT userid FROM users WHERE email=? AND password=?', (email, password))
     user = conn_cursor.fetchall()
     print(user)
-
-
-def pk(conn_cursor):
-    conn_cursor.execute(f'SELECT userid from users')
-    users = conn_cursor.fetchall()
-    return int(users[-1][0]) + 1
 
 
 def email_is_valid(email_):
@@ -120,4 +128,13 @@ def password_id_valid(user_id, password):
 
 
 if __name__ == '__main__':
-    password_id_valid(1, 'testpassword')
+    pass
+    # db = DataBaseSQLite3('database.sqlite3')
+    # db.connect()
+    # cursor = db.cursor()
+    # cursor.execute(f'SELECT * from users')
+    # users = cursor.fetchall()
+    # for user in users:
+    #     print(user)
+    # db.commit()
+    # db.close()
