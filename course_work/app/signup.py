@@ -2,12 +2,13 @@ import sys
 import threading
 import time
 import random
+import sqlite3
 
 import qtwidgets
 
-from colors import BColors
-from button import MyButton
-from db import add_user_to_db, pk
+from course_work.app.colors import BColors
+from course_work.app.button import MyButton
+from course_work.db.db_user import add_user_to_db, pk
 
 from PyQt5 import QtWidgets, QtGui, QtCore
 
@@ -30,7 +31,7 @@ class SignUpWidget(QtWidgets.QWidget):
         super().__init__()
 
         self.setWindowTitle('SignUp')
-        self.setWindowIcon(QtGui.QIcon('icons/add-user.png'))
+        self.setWindowIcon(QtGui.QIcon('../icons/add-user.png'))
         self.setMaximumHeight(120)
         self.setMinimumWidth(320)
         self.setMaximumWidth(380)
@@ -39,38 +40,46 @@ class SignUpWidget(QtWidgets.QWidget):
 
         self.first_name_line = QtWidgets.QLineEdit()
         self.first_name_line.setPlaceholderText('Name')
+        self.first_name_line.setStyleSheet('background-color: #FFFFFF;')
 
         self.last_name_line = QtWidgets.QLineEdit()
         self.last_name_line.setPlaceholderText('Surname')
+        self.last_name_line.setStyleSheet('background-color: #FFFFFF;')
 
         self.email_line = QtWidgets.QLineEdit()
         self.email_line.setPlaceholderText('Email')
+        self.email_line.setStyleSheet('background-color: #FFFFFF;')
 
         self.password_line = qtwidgets.PasswordEdit()
         self.password_line.setPlaceholderText('Password')
+        self.password_line.setStyleSheet('background-color: #FFFFFF;')
 
         self.password_check_line = qtwidgets.PasswordEdit()
         self.password_check_line.setPlaceholderText('Confirm password')
+        self.password_check_line.setStyleSheet('background-color: #FFFFFF;')
 
         self.first_name_btn = MyButton()
-        self.first_name_btn.setIcon(QtGui.QIcon('icons/at.png'))
+        self.first_name_btn.setIcon(QtGui.QIcon('../icons/at.png'))
         self.first_name_btn.without_hover('#A4A3A3')
 
         self.last_name_btn = MyButton()
-        self.last_name_btn.setIcon(QtGui.QIcon('icons/at.png'))
+        self.last_name_btn.setIcon(QtGui.QIcon('../icons/at.png'))
         self.last_name_btn.without_hover('#A4A3A3')
 
         self.email_btn = MyButton()
-        self.email_btn.setIcon(QtGui.QIcon('icons/at.png'))
+        self.email_btn.setIcon(QtGui.QIcon('../icons/at.png'))
         self.email_btn.without_hover('#A4A3A3')
 
         self.password_btn = MyButton()
-        self.password_btn.setIcon(QtGui.QIcon('icons/at.png'))
+        self.password_btn.setIcon(QtGui.QIcon('../icons/at.png'))
         self.password_btn.without_hover('#A4A3A3')
 
         self.password_check_btn = MyButton()
-        self.password_check_btn.setIcon(QtGui.QIcon('icons/at.png'))
+        self.password_check_btn.setIcon(QtGui.QIcon('../icons/at.png'))
         self.password_check_btn.without_hover('#A4A3A3')
+
+        self.label = QtWidgets.QLabel('all widgets need fill correct')
+        self.label.hide()
 
         self.acceptButton = MyButton('signup')
         self.acceptButton.change_hover('#198754')
@@ -105,27 +114,39 @@ class SignUpWidget(QtWidgets.QWidget):
         self.vbox.addLayout(self.hbox3)
         self.vbox.addLayout(self.hbox4)
         self.vbox.addLayout(self.hbox5)
+        self.vbox.addWidget(self.label, alignment=QtCore.Qt.AlignCenter)
         self.vbox.addWidget(self.acceptButton, alignment=QtCore.Qt.AlignCenter)
 
         self.setLayout(self.vbox)
 
     def register(self):
-        if self.first_name_line.text() == '' or self.last_name_line.text() == '' \
-                or '@' not in self.email_line.text() or len(self.password_line.text()) < 8 \
-                or self.password_line.text() != self.password_check_line.text():
-            print('error')
-        else:
-            add_user_to_db(
-                pk(), self.first_name_line.text(), self.last_name_line.text(),
-                self.email_line.text(), self.password_line.text()
-            )
-            self.first_name_line.setText('')
-            self.last_name_line.setText('')
-            self.email_line.setText('')
-            self.password_line.setText('')
-            self.password_check_line.setText('')
+        try:
+            if self.first_name_line.text() == '' or self.last_name_line.text() == '' \
+                    or '@' not in self.email_line.text() or len(self.password_line.text()) < 8 \
+                    or self.password_line.text() != self.password_check_line.text():
+                self.first_name_line.setText('')
+                self.last_name_line.setText('')
+                self.email_line.setText('')
+                self.password_line.setText('')
+                self.password_check_line.setText('')
+                self.label.show()
+            else:
+                add_user_to_db(
+                    pk(), self.first_name_line.text(), self.last_name_line.text(),
+                    self.email_line.text(), self.password_line.text()
+                )
+                self.first_name_line.setText('')
+                self.last_name_line.setText('')
+                self.email_line.setText('')
+                self.password_line.setText('')
+                self.password_check_line.setText('')
 
-            self.hide()
+                self.hide()
+        except sqlite3.IntegrityError:
+            self.email_line.setPlaceholderText('this email already using')
+            self.email_line.setStyleSheet('background-color: #E14F60;')
+            self.password_line.setStyleSheet('background-color: #E14F60;')
+            self.password_check_line.setStyleSheet('background-color: #E14F60;')
 
 
 if __name__ == '__main__':

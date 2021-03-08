@@ -34,7 +34,7 @@ users_data = [
 
 class DataBaseSQLite3:
 
-    def __init__(self, db_name='db.sqlite3'):
+    def __init__(self, db_name='database.sqlite3'):
         self._db_name = db_name
         self.connect_ = None
 
@@ -128,11 +128,11 @@ def password_id_valid(user_id, password):
 
 
 if __name__ == '__main__':
-    pass
+    ''''''
     # db = DataBaseSQLite3('database.sqlite3')
     # db.connect()
     # cursor = db.cursor()
-    # cursor.execute(f'SELECT * from users')
+    # cursor.execute(f'SELECT * from users where userid=23')
     # users = cursor.fetchall()
     # for user in users:
     #     print(user)

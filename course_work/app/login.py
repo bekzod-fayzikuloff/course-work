@@ -2,13 +2,14 @@ import sys
 import time
 import random
 import main
+import admin
 
 import signup
-from button import MyButton
-from colors import BColors
+from course_work.app.button import MyButton
+from course_work.app.colors import BColors
 
 from PyQt5 import QtWidgets, QtGui, QtCore
-from course_work.db import email_is_valid, password_id_valid
+from course_work.db.db_user import email_is_valid, password_id_valid
 from qtwidgets import PasswordEdit
 
 start_time = time.time()
@@ -25,8 +26,10 @@ class Widget(QtWidgets.QWidget):
         self.setMaximumHeight(110)
         self.setStyleSheet('background-color: #3C3F41;')
         self.setWindowTitle('authenticator app')
-        self.setWindowIcon(QtGui.QIcon(r'icons/login_ico.png'))
+        self.setWindowIcon(QtGui.QIcon(r'../icons/login_ico.png'))
         self.setContentsMargins(0, 0, 0, -8)
+
+        self.admin_app = admin.AdminApp()
 
         # -------------------------------------
         self.main_app = main.MyMainApp()
@@ -35,16 +38,18 @@ class Widget(QtWidgets.QWidget):
         self.lineEdit_email = QtWidgets.QLineEdit()
         self.lineEdit_email.setMinimumHeight(22)
         self.lineEdit_email.setFont(QtGui.QFont('SansSerif', 10, QtGui.QFont.Bold))
+        self.lineEdit_email.setStyleSheet('background-color: #FFFFFF;')
 
         self.lineEdit_password = PasswordEdit()
         # self.lineEdit_password.setEchoMode(QtWidgets.QLineEdit.Password)
         self.lineEdit_password.setMinimumHeight(22)
         self.lineEdit_password.setFont(QtGui.QFont('SansSerif', 10, QtGui.QFont.Bold))
+        self.lineEdit_password.setStyleSheet('background-color: #FFFFFF;')
 
         self.acceptButton = MyButton(' login')
         self.acceptButton.setMinimumWidth(160)
         self.acceptButton.setMaximumWidth(220)
-        self.acceptButton.setIcon(QtGui.QIcon(r'icons/login.png'))
+        self.acceptButton.setIcon(QtGui.QIcon(r'../icons/login.png'))
         self.acceptButton.clicked.connect(self.user_login)
 
         self.sign_up = signup.SignUpWidget()
@@ -52,18 +57,18 @@ class Widget(QtWidgets.QWidget):
         self.signUpButton = MyButton(' Sign Up')
         self.signUpButton.setMinimumWidth(160)
         self.signUpButton.setMaximumWidth(220)
-        self.signUpButton.setIcon(QtGui.QIcon(r'icons/add-user.png'))
+        self.signUpButton.setIcon(QtGui.QIcon(r'../icons/add-user.png'))
         self.signUpButton.change_hover('#198754')
         self.signUpButton.clicked.connect(self.signup)
 
         self.emailIconButton = MyButton()
-        self.emailIconButton.setIcon(QtGui.QIcon(r'icons/at.png'))
-        self.emailIconButton.change_hover('#E1E1E1')
+        self.emailIconButton.setIcon(QtGui.QIcon(r'../icons/at.png'))
+        self.emailIconButton.without_hover('#E1E1E1')
 
         self.passwordIconButton = MyButton()
-        self.passwordIconButton.setIcon(QtGui.QIcon(r'icons/password.png'))
+        self.passwordIconButton.setIcon(QtGui.QIcon(r'../icons/password.png'))
         self.passwordIconButton.setObjectName('view')
-        self.passwordIconButton.change_hover('#E1E1E1')
+        self.passwordIconButton.without_hover('#E1E1E1')
 
         self.hbox1 = QtWidgets.QHBoxLayout()
         self.hbox2 = QtWidgets.QHBoxLayout()
@@ -87,20 +92,25 @@ class Widget(QtWidgets.QWidget):
         self.setLayout(self.vbox)
 
     def user_login(self):
-        try:
-            result, id_ = email_is_valid(self.lineEdit_email.text())
-            if result:
-                if password_id_valid(user_id=id_, password=self.lineEdit_password.text()):
-                    print('successful login')
-                    self.hide()
-                    self.main_app.show()
-                else:
-                    self.lineEdit_password.setStyleSheet('background-color: #F03C39;')
-                    self.lineEdit_password.setText('')
-        except Exception as e:
-            self.lineEdit_password.setStyleSheet('background-color: #F03C39;')
+        if self.lineEdit_password.text() and self.lineEdit_email.text() == 'admin':
             self.lineEdit_password.setText('')
-            print(e)
+            self.lineEdit_email.setText('')
+            self.admin_app.show()
+        else:
+            try:
+                result, id_ = email_is_valid(self.lineEdit_email.text())
+                if result:
+                    if password_id_valid(user_id=id_, password=self.lineEdit_password.text()):
+                        print('successful login')
+                        self.hide()
+                        self.main_app.show()
+                    else:
+                        self.lineEdit_password.setStyleSheet('background-color: #E14F60;')
+                        self.lineEdit_password.setText('')
+            except Exception as e:
+                self.lineEdit_password.setStyleSheet('background-color: #E14F60;')
+                self.lineEdit_password.setText('')
+                print(e)
 
     def signup(self):
         self.sign_up.show()
