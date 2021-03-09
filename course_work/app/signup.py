@@ -31,7 +31,7 @@ class SignUpWidget(QtWidgets.QWidget):
         super().__init__()
 
         self.setWindowTitle('SignUp')
-        self.setWindowIcon(QtGui.QIcon('../icons/add-user.png'))
+        self.setWindowIcon(QtGui.QIcon('icons/add-user.png'))
         self.setMaximumHeight(120)
         self.setMinimumWidth(320)
         self.setMaximumWidth(380)
@@ -59,23 +59,23 @@ class SignUpWidget(QtWidgets.QWidget):
         self.password_check_line.setStyleSheet('background-color: #FFFFFF;')
 
         self.first_name_btn = MyButton()
-        self.first_name_btn.setIcon(QtGui.QIcon('../icons/at.png'))
+        self.first_name_btn.setIcon(QtGui.QIcon('icons/at.png'))
         self.first_name_btn.without_hover('#A4A3A3')
 
         self.last_name_btn = MyButton()
-        self.last_name_btn.setIcon(QtGui.QIcon('../icons/at.png'))
+        self.last_name_btn.setIcon(QtGui.QIcon('icons/at.png'))
         self.last_name_btn.without_hover('#A4A3A3')
 
         self.email_btn = MyButton()
-        self.email_btn.setIcon(QtGui.QIcon('../icons/at.png'))
+        self.email_btn.setIcon(QtGui.QIcon('icons/at.png'))
         self.email_btn.without_hover('#A4A3A3')
 
         self.password_btn = MyButton()
-        self.password_btn.setIcon(QtGui.QIcon('../icons/at.png'))
+        self.password_btn.setIcon(QtGui.QIcon('icons/at.png'))
         self.password_btn.without_hover('#A4A3A3')
 
         self.password_check_btn = MyButton()
-        self.password_check_btn.setIcon(QtGui.QIcon('../icons/at.png'))
+        self.password_check_btn.setIcon(QtGui.QIcon('icons/at.png'))
         self.password_check_btn.without_hover('#A4A3A3')
 
         self.label = QtWidgets.QLabel('all widgets need fill correct')

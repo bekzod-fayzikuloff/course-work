@@ -22,6 +22,7 @@ items = [
 ]
 
 with db:
-    models.Maker.insert_many(items).execute()
+    for i in Profession.select().where(Profession.profession == 'Кассир'):
+        print(i.id)
 
 print('OK...')

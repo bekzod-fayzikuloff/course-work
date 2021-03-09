@@ -26,7 +26,7 @@ class Widget(QtWidgets.QWidget):
         self.setMaximumHeight(110)
         self.setStyleSheet('background-color: #3C3F41;')
         self.setWindowTitle('authenticator app')
-        self.setWindowIcon(QtGui.QIcon(r'../icons/login_ico.png'))
+        self.setWindowIcon(QtGui.QIcon(r'icons/login_ico.png'))
         self.setContentsMargins(0, 0, 0, -8)
 
         self.admin_app = admin.AdminApp()
@@ -49,7 +49,7 @@ class Widget(QtWidgets.QWidget):
         self.acceptButton = MyButton(' login')
         self.acceptButton.setMinimumWidth(160)
         self.acceptButton.setMaximumWidth(220)
-        self.acceptButton.setIcon(QtGui.QIcon(r'../icons/login.png'))
+        self.acceptButton.setIcon(QtGui.QIcon(r'icons/login.png'))
         self.acceptButton.clicked.connect(self.user_login)
 
         self.sign_up = signup.SignUpWidget()
@@ -57,16 +57,16 @@ class Widget(QtWidgets.QWidget):
         self.signUpButton = MyButton(' Sign Up')
         self.signUpButton.setMinimumWidth(160)
         self.signUpButton.setMaximumWidth(220)
-        self.signUpButton.setIcon(QtGui.QIcon(r'../icons/add-user.png'))
+        self.signUpButton.setIcon(QtGui.QIcon(r'icons/add-user.png'))
         self.signUpButton.change_hover('#198754')
         self.signUpButton.clicked.connect(self.signup)
 
         self.emailIconButton = MyButton()
-        self.emailIconButton.setIcon(QtGui.QIcon(r'../icons/at.png'))
+        self.emailIconButton.setIcon(QtGui.QIcon(r'icons/at.png'))
         self.emailIconButton.without_hover('#E1E1E1')
 
         self.passwordIconButton = MyButton()
-        self.passwordIconButton.setIcon(QtGui.QIcon(r'../icons/password.png'))
+        self.passwordIconButton.setIcon(QtGui.QIcon(r'icons/password.png'))
         self.passwordIconButton.setObjectName('view')
         self.passwordIconButton.without_hover('#E1E1E1')
 

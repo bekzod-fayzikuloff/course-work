@@ -1,5 +1,7 @@
 import sqlite3 as lite
 
+database = r'..\db\database.sqlite3'
+
 sql = """CREATE TABLE IF NOT EXISTS users(
     userid INT PRIMARY KEY,
     first_name TEXT,
@@ -64,7 +66,7 @@ class DataBaseSQLite3:
 
 
 def pk():
-    db = DataBaseSQLite3('database.sqlite3')
+    db = DataBaseSQLite3(database)
     db.connect()
     cursor = db.cursor()
     cursor.execute(f'SELECT userid from users')
@@ -73,7 +75,7 @@ def pk():
 
 
 def add_user_to_db(user_id, user_first_name, user_last_name, user_email, user_password):
-    db = DataBaseSQLite3('database.sqlite3')
+    db = DataBaseSQLite3(database)
     db.connect()
     cursor = db.cursor()
     data = tuple([user_id, user_first_name, user_last_name, user_email, user_password])
@@ -97,7 +99,7 @@ def user_auth(conn_cursor, email, password):
 def email_is_valid(email_):
     if '@' not in email_:
         return False
-    db = DataBaseSQLite3('database.sqlite3')
+    db = DataBaseSQLite3(database)
     db.connect()
 
     cursor = db.cursor()
@@ -114,7 +116,7 @@ def email_is_valid(email_):
 def password_id_valid(user_id, password):
     if password is None or len(password) < 8:
         return False
-    db = DataBaseSQLite3('database.sqlite3')
+    db = DataBaseSQLite3(database)
     db.connect()
     cursor = db.cursor()
     sql_ = """ SELECT password FROM users WHERE userid=? """
@@ -132,7 +134,7 @@ if __name__ == '__main__':
     # db = DataBaseSQLite3('database.sqlite3')
     # db.connect()
     # cursor = db.cursor()
-    # cursor.execute(f'SELECT * from users where userid=23')
+    # cursor.execute(f'SELECT * from users')
     # users = cursor.fetchall()
     # for user in users:
     #     print(user)

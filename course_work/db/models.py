@@ -2,7 +2,7 @@ from datetime import date
 
 import peewee
 
-db = peewee.SqliteDatabase(r'D:\python\projects\python_adv\first_example\course_work\db\database.sqlite3')
+db = peewee.SqliteDatabase(r'..\db\database.sqlite3')
 
 
 class BaseModel(peewee.Model):
