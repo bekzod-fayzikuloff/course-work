@@ -1,12 +1,11 @@
 import models
 from models import *
 
-text = '''Официальный сайт компании РЛС ®. Энциклопедия лекарств и товаров аптечного ассортимента российского интернета. Справочник лекарственных препаратов Rlsnet.ru предоставляет пользователям доступ к инструкциям, ценам и описаниям лекарственных средств, БАДов, медицинских изделий,'''
 
 professions = models.Profession.select()
 
 items = [
-    {'company_name': 'Актива', 'company_description': text, 'company_number': ''},
+    {'company_name': 'Актива', 'company_description': 'text', 'company_number': ''},
     {'company_name': 'BOIRON', 'company_description': 'Смирнов', 'company_number': ''},
     {'company_name': 'Пептек', 'company_description': '', 'company_number': ''},
     {'company_name': 'Никитская лаборатория', 'company_description': '', 'company_number': ''},

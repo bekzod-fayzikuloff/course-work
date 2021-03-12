@@ -50,4 +50,3 @@ class Medicine(BaseModel):
 
     class Meta:
         db_table = 'medicines'
-
