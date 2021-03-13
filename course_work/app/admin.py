@@ -1,20 +1,32 @@
 import sys
 import time
+import random
 
 from PyQt5.QtCore import QDate
 
 import button
 from PyQt5 import QtWidgets, QtGui, QtCore
-from course_work.app import main
 
+from course_work.app import main
+from course_work.app.colors import BColors
 from course_work.db.models import *
 
 start_time = time.time()
+colors = [BColors.OKCYAN, BColors.OKBLUE, BColors.OKGREEN]
 
 
 class AdminApp(QtWidgets.QWidget):
+    """
+    Класс AdminApp  является наследником класса QtWidgets.QWidget в ней я страюсь реализовать функционал главного окна
+    админ панели с помощбю которого можно манипкулировать базой данных с помощью GUI состовляющец программы
+    """
 
     def __init__(self):
+        """
+        Метод коструктор класса AdminApp который не принимает никаких аргументов а просто вызывает коструктор сурекласса
+        и последующем просто создает атрибуты класса AdminApp которые являются экземплярами других классов и происходит
+        процесс манипуляции с этими экземплярами с помощью их методов и свойст.
+        """
         super().__init__()
         self.setWindowIcon(QtGui.QIcon(r'icons/admin.png'))
         self.setWindowTitle('Admin Panel')
@@ -112,6 +124,10 @@ class AdminApp(QtWidgets.QWidget):
         self.setLayout(self.hbox1)
 
     def add_employee_func(self):
+        """
+            Метод экземпляра в котором мы с помощью условного оператора и конструкции try/except выполняем процесс
+            занесения информации об професии в вашей аптеке в базу данных
+        """
         if all((self.profession_name.text(), self.experience.text(), self.wage.text())):
             try:
                 with db:
@@ -137,6 +153,10 @@ class AdminApp(QtWidgets.QWidget):
             self.wage.setPlaceholderText('Все поля должны быть заполнены')
 
     def add_staff_person(self):
+        """
+            Метод экземпляра в котором мы с помощью условного оператора и конструкции try/except выполняем процесс
+            занесения информации об сотруднике в базу данных
+        """
         if all((self.person_name.text(), self.person_lastname.text(), self.person_profession_id.currentText())):
             try:
                 with db:
@@ -160,6 +180,10 @@ class AdminApp(QtWidgets.QWidget):
             self.person_lastname.setPlaceholderText('Все поля должны быть заполнены')
 
     def add_medicine_method(self):
+        """
+            Метод экземпляра в котором мы с помощью условного оператора и конструкции try/except выполняем процесс
+            занесения информации об лекарствах в базу данных
+        """
         med_name = self.medicine_name_line.text()
         med_description = self.medicine_description.toPlainText()
         med_price = self.medicine_price.text()
@@ -202,6 +226,11 @@ if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
     widget = AdminApp()
     final_time = time.time() - start_time
-    print(final_time)
+    if int(str(final_time)[0]) < 1:
+        print(f"{BColors.BOLD}{random.choice(colors)}--- {final_time} секунд ---")
+    elif int(str(final_time)[0]) == 1:
+        print(f"{BColors.BOLD}{BColors.WARNING}--- {final_time} секунд ---")
+    else:
+        print(f"{BColors.BOLD}{BColors.FAIL}--- {final_time} секунд ---")
     widget.show()
     sys.exit(app.exec())
