@@ -19,8 +19,17 @@ colors = [BColors.OKCYAN, BColors.OKBLUE, BColors.OKGREEN]
 
 
 class Widget(QtWidgets.QWidget):
+    """
+        Класс QWidget который наследуется от класса QtWidget.QWidget(будет содержать логику аутентификации).
+        В методе контруктор вызываем конструктор родительского класса и взаимодействуем с атрибутами нашего класса,
+        которые являются экземлярами различных классов и производим над ними нужные нам манипуляцию
+    """
 
     def __init__(self):
+        """
+            Конструктор нашего класса в котором будет происходить все события созадния инстэнсов дригх классо и работа
+            с их свойствами и методами
+        """
         super().__init__()
         self.resize(320, 100)
         self.setMaximumWidth(400)
@@ -28,12 +37,12 @@ class Widget(QtWidgets.QWidget):
         self.setStyleSheet('background-color: #3C3F41;')
         self.setWindowTitle('authenticator app')
         self.setWindowIcon(QtGui.QIcon(r'icons/login_ico.png'))
-        self.setContentsMargins(0, 0, 0, -8)
+        self.setContentsMargins(0, 0, 0, -10)
 
         self.admin_app = admin.AdminApp()
 
         # -------------------------------------
-        self.main_app = main.MyMainApp()
+        self.main_app = main.MainAppWindow()
         # -------------------------------------
 
         self.lineEdit_email = QtWidgets.QLineEdit()
@@ -42,7 +51,6 @@ class Widget(QtWidgets.QWidget):
         self.lineEdit_email.setStyleSheet('background-color: #FFFFFF;')
 
         self.lineEdit_password = PasswordEdit()
-        # self.lineEdit_password.setEchoMode(QtWidgets.QLineEdit.Password)
         self.lineEdit_password.setMinimumHeight(22)
         self.lineEdit_password.setFont(QtGui.QFont('SansSerif', 10, QtGui.QFont.Bold))
         self.lineEdit_password.setStyleSheet('background-color: #FFFFFF;')
@@ -93,6 +101,10 @@ class Widget(QtWidgets.QWidget):
         self.setLayout(self.vbox)
 
     def user_login(self):
+        """
+        Метод класс в котором проиходит логика проверки совпадения значений занесенные пользователем со значениями
+        которые есть в базе данных с помощью условного оператора и конструкции try/except:
+        """
         if self.lineEdit_password.text() and self.lineEdit_email.text() == 'admin':
             self.lineEdit_password.setText('')
             self.lineEdit_email.setText('')

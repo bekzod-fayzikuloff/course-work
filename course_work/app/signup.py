@@ -1,5 +1,4 @@
 import sys
-import threading
 import time
 import random
 import sqlite3
@@ -16,18 +15,19 @@ start_time = time.time()
 colors = [BColors.OKCYAN, BColors.OKBLUE, BColors.OKGREEN]
 
 
-class Thread(threading.Thread):
-    def __init__(self, parent_ins):
-        super(Thread, self).__init__()
-        self.parent_ins = parent_ins
-
-    def run(self) -> None:
-        pass
-
-
 class SignUpWidget(QtWidgets.QWidget):
+    """
+        Класс SignUpWidget является настледником класса QtWidgets.QWidget в котором прописывается логика для добавления
+        пользоваетелей в базу данных
+    """
 
     def __init__(self):
+        """
+            Метод конструктор который не принимает никаких аргументов кроме аргумента self что указывает на сам
+            экземпляр класса,  в кострукторе мы вызываем метод __init__() суперкласса и создаем атрбуты
+            экземпляра класса которые являются экземплярами других классов с которыми мы сможем взаимодействовать
+            с помощью их методов и свойствЫ
+        """
         super().__init__()
 
         self.setWindowTitle('SignUp')
@@ -120,6 +120,11 @@ class SignUpWidget(QtWidgets.QWidget):
         self.setLayout(self.vbox)
 
     def register(self):
+        """
+        Метод register проверяет валидность введенных данных со стороны пользователя и после проверки в случаи их
+        валидности добавляет и в базу данных, в противном сучае возвращает сообщение о причине ошибки
+        :return None:
+        """
         try:
             if self.first_name_line.text() == '' or self.last_name_line.text() == '' \
                     or '@' not in self.email_line.text() or len(self.password_line.text()) < 8 \

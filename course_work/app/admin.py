@@ -2,9 +2,9 @@ import sys
 import time
 import random
 
-from PyQt5.QtCore import QDate
-
 import button
+
+from PyQt5.QtCore import QDate
 from PyQt5 import QtWidgets, QtGui, QtCore
 
 from course_work.app import main
@@ -32,7 +32,7 @@ class AdminApp(QtWidgets.QWidget):
         self.setWindowTitle('Admin Panel')
         self.resize(620, 340)
         self.setStyleSheet('background-color: #A9AFCD;')
-        self.maker_app = main.MyMainApp()
+        self.maker_app = main.MainAppWindow()
 
         self.profession_name = QtWidgets.QLineEdit()
         self.profession_name.setPlaceholderText('Названия профессии в вашей аптеке')

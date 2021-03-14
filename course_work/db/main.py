@@ -21,7 +21,7 @@ items = [
 ]
 
 with db:
-    for i in Profession.select().where(Profession.profession == 'Кассир'):
-        print(i.id)
+    for i in Medicine.select():
+        print(i.description, '-->', i.name)
 
 print('OK...')
