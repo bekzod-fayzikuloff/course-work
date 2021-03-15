@@ -32,7 +32,7 @@ class AdminApp(QtWidgets.QWidget):
         self.setWindowTitle('Admin Panel')
         self.resize(620, 340)
         self.setStyleSheet('background-color: #A9AFCD;')
-        self.maker_app = main.MainAppWindow()
+        self.maker_app = main.MainApp()
 
         self.profession_name = QtWidgets.QLineEdit()
         self.profession_name.setPlaceholderText('Названия профессии в вашей аптеке')
