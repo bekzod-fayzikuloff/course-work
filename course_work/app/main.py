@@ -1,5 +1,6 @@
 import random
 import sys
+
 import admin_panel
 
 from PyQt5 import QtWidgets, QtGui, QtCore
@@ -8,22 +9,20 @@ from course_work.db.models import *
 med_icons = [r'icons/med.png', r'icons/med1.png', r'icons/med2.png']
 
 
-def spaces(cout: int):
-    return ' ' * cout
+def spaces(count: int):
+    return ' ' * count
 
 
 class MedicineAppWidget(QtWidgets.QWidget):
 
     __css_label = """
         QLabel {
-            border: 2px solid #A248AE;
-            border-radius: 12px;
-            background-color: #9060AE;
+            border: 2px solid #CFA0E9;
+            background-color: #fff;
         }
         QLabel:hover {
-            border: 2px solid black;
-            border-radius: 12px;
-            background-color: #F9F8F8;
+            border: 2px solid #E1E1E1;
+            background-color: #F5F5F5;
         }
     """
 
@@ -35,15 +34,17 @@ class MedicineAppWidget(QtWidgets.QWidget):
 
         self.text_title = QtWidgets.QLabel()
         self.text_title.setMargin(10)
-        self.setStyleSheet(self.__class__.__css_label)
+        self.text_title.setStyleSheet('background-color: #fff;')
 
         self.text_title.setContentsMargins(0, 0, 0, -20)
         self.text_description = QtWidgets.QLabel()
         self.text_description.setWordWrap(True)
         self.text_description.setMargin(20)
+        self.text_description.setStyleSheet(self.__class__.__css_label)
 
         self.text_info = QtWidgets.QLabel()
         self.text_info.setMargin(10)
+        self.text_info.setStyleSheet(self.__class__.__css_label)
 
         self.hbox_med = QtWidgets.QHBoxLayout()
         self.hbox_med.setContentsMargins(0, 0, 0, 0)
@@ -84,12 +85,13 @@ class MainAppWindow(QtWidgets.QListWidget):
         super().__init__()
         self.resize(800, 500)
         self.setMinimumSize(800, 500)
-        self.setStyleSheet('background-color: #6C6D7A;')
+        self.setStyleSheet('background-color: #fff;')
         self.setFrameShape(self.NoFrame)
         # self.setFlow(self.LeftToRight)
         # self.setWrapping(True)
         self.setResizeMode(self.Adjust)
-
+        self.setSelectionMode(QtWidgets.QAbstractItemView.NoSelection)
+        self.clearSelection()
         self.unit_ui()
 
     def unit_ui(self, filter_=None):
@@ -111,8 +113,7 @@ class MainAppWindow(QtWidgets.QListWidget):
                 self.setItemWidget(list_widget_item, my_app_widget)
         else:
             medicine = Medicine.select().where(
-                (Medicine.name.contains(filter_.lower() or filter_.capitalize())) |
-                (Medicine.description.contains(filter_.lower() or filter_.capitalize()))
+                (Medicine.name.contains(filter_) | (Medicine.description.contains(filter_)))
             )
             if len(medicine) == 0:
                 self.setFont(QtGui.QFont('SansSerif', 14, QtGui.QFont.Bold))
