@@ -7,6 +7,7 @@ from PyQt5 import QtWidgets, QtGui, QtCore
 from course_work.db.models import *
 
 med_icons = [r'icons/med.png', r'icons/med1.png', r'icons/med2.png']
+font_family = 'Century Gothic'
 
 
 def spaces(count: int):
@@ -64,15 +65,15 @@ class MedicineAppWidget(QtWidgets.QWidget):
         self.setLayout(self.allHBox)
 
     def set_text_title(self, text: str):
-        self.text_title.setFont(QtGui.QFont('SansSerif', 12, QtGui.QFont.Bold))
+        self.text_title.setFont(QtGui.QFont(font_family, 13, QtGui.QFont.Bold))
         self.text_title.setText(text)
 
     def set_text_description(self, text: str):
-        self.text_description.setFont(QtGui.QFont('SansSerif', 11, QtGui.QFont.Bold))
+        self.text_description.setFont(QtGui.QFont(font_family, 12, QtGui.QFont.Bold))
         self.text_description.setText(text)
 
     def set_price(self, price):
-        self.text_info.setFont(QtGui.QFont('SansSerif', 9, QtGui.QFont.Bold))
+        self.text_info.setFont(QtGui.QFont(font_family, 10, QtGui.QFont.Bold))
         self.text_info.setText(str(price))
 
     def set_icon(self, path: str):
@@ -116,8 +117,8 @@ class MainAppWindow(QtWidgets.QListWidget):
                 (Medicine.name.contains(filter_) | (Medicine.description.contains(filter_)))
             )
             if len(medicine) == 0:
-                self.setFont(QtGui.QFont('SansSerif', 14, QtGui.QFont.Bold))
-                self.addItem('По данному запросу нету пододящих рузультатов')
+                self.setFont(QtGui.QFont(font_family, 14, QtGui.QFont.Bold))
+                self.addItem('По данному запросу нету пододящих результатов')
             for med in medicine:
                 my_app_widget = MedicineAppWidget()
                 my_app_widget.set_text_title(f' {med.name} ({med.maker_id.company_name})')
@@ -145,7 +146,13 @@ class MainApp(QtWidgets.QWidget):
         super().__init__()
         self.setContentsMargins(0, 0, 0, 0)
         self.setStyleSheet('background-color: #3C3F41;')
+        self.setWindowTitle('Pharmacy')
+        self.setWindowIcon(QtGui.QIcon(r'icons/caduceus.png'))
         self.main_panel = admin_panel.PanelApp()
+
+        self.main_panel.search_line.setFont(QtGui.QFont(font_family))
+        self.main_panel.search_btn.setFont(QtGui.QFont(font_family, weight=QtGui.QFont.Bold))
+        self.main_panel.refresh_btn.setFont(QtGui.QFont(font_family, weight=QtGui.QFont.Bold))
         self.main_panel.take_parent_bg(parent=self)
 
         self.main_panel.refresh_btn.clicked.connect(self.medicine_refresh)
@@ -171,6 +178,7 @@ class MainApp(QtWidgets.QWidget):
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
+    id_ = QtGui.QFontDatabase.addApplicationFont(r'font/my_font.ttf')
     widget = MainApp()
     widget.show()
     sys.exit(app.exec())
