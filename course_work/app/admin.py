@@ -3,6 +3,9 @@ import time
 import random
 
 import button
+import login
+import line_module
+import text_edit
 
 from PyQt5.QtCore import QDate
 from PyQt5 import QtWidgets, QtGui, QtCore
@@ -28,17 +31,22 @@ class AdminApp(QtWidgets.QWidget):
         процесс манипуляции с этими экземплярами с помощью их методов и свойст.
         """
         super().__init__()
-        self.setWindowIcon(QtGui.QIcon(r'icons/admin.png'))
+        self.setWindowIcon(QtGui.QIcon(login.resource_path(r'icons/admin.png')))
         self.setWindowTitle('Admin Panel')
         self.resize(620, 340)
-        self.setStyleSheet('background-color: #A9AFCD;')
+        self.setStyleSheet('background-color: #fff;')
         self.maker_app = main.MainApp()
 
-        self.profession_name = QtWidgets.QLineEdit()
+        self.profession_name = line_module.MyLine()
+        self.profession_name.change_font_size(12)
         self.profession_name.setPlaceholderText('Названия профессии в вашей аптеке')
-        self.experience = QtWidgets.QLineEdit()
+
+        self.experience = line_module.MyLine()
+        self.experience.change_font_size(12)
         self.experience.setPlaceholderText('Назвние опыта в нужной в вашей аптеке')
-        self.wage = QtWidgets.QLineEdit()
+
+        self.wage = line_module.MyLine()
+        self.wage.change_font_size(12)
         self.wage.setPlaceholderText('Заработная плата данной профессии')
 
         self.button = button.MyButton('Добавить профессию')
@@ -55,11 +63,14 @@ class AdminApp(QtWidgets.QWidget):
 
         # -------------------------------
 
-        self.person_name = QtWidgets.QLineEdit()
+        self.person_name = line_module.MyLine()
+        self.person_name.change_font_size(12)
         self.person_name.setPlaceholderText('Имя сотрудника в аптеке')
-        self.person_lastname = QtWidgets.QLineEdit()
+
+        self.person_lastname = line_module.MyLine()
+        self.person_lastname.change_font_size(12)
         self.person_lastname.setPlaceholderText('Фамилия сотрудника в аптеке')
-        self.person_profession_id = QtWidgets.QComboBox()
+        self.person_profession_id = text_edit.ComboBox()
 
         for profession in Profession.select():
             self.person_profession_id.addItem(profession.profession)
@@ -82,15 +93,20 @@ class AdminApp(QtWidgets.QWidget):
         self.vbox2 = QtWidgets.QVBoxLayout()
         self.vbox2.addLayout(self.hbox)
 
-        self.medicine_name_line = QtWidgets.QLineEdit()
+        self.medicine_name_line = line_module.MyLine()
+        self.medicine_name_line.change_font_size(12)
         self.medicine_name_line.setPlaceholderText('Названия лекарства')
-        self.medicine_description = QtWidgets.QTextEdit()
+
+        self.medicine_description = text_edit.TextArea()
         self.medicine_description.setMinimumHeight(175)
         self.medicine_description.setPlaceholderText('Описания лекарства')
+
         self.medicine_price = QtWidgets.QDoubleSpinBox()
         self.medicine_price.setMaximum(1000000)
         self.medicine_date_of_manufacture = QtWidgets.QDateEdit()
+
         self.medicine_shelf_life = QtWidgets.QDateEdit()
+
         self.medicine_date_of_manufacture.setDate(QDate(2020, 1, 1))
         self.medicine_shelf_life.setDate(QDate(2020, 1, 1))
         self.maker_medicine_id = QtWidgets.QComboBox()
@@ -115,9 +131,9 @@ class AdminApp(QtWidgets.QWidget):
         self.hbox1.addLayout(self.vbox2)
 
         self.icon_btn = button.MyButton()
-        self.icon_btn.setIcon(QtGui.QIcon('icons/caduceus.png'))
+        self.icon_btn.setIcon(QtGui.QIcon(login.resource_path('icons/caduceus.png')))
         self.icon_btn.setIconSize(QtCore.QSize(50, 50))
-        self.icon_btn.without_hover('#A9AFCD')
+        self.icon_btn.without_hover('#fff')
         self.icon_btn.clicked.connect(self.add_maker)
 
         self.hbox1.addWidget(self.icon_btn)
