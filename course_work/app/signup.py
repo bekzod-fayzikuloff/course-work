@@ -2,7 +2,9 @@ import sys
 import time
 import random
 import sqlite3
+
 import login
+import line_module
 
 import qtwidgets
 
@@ -39,25 +41,22 @@ class SignUpWidget(QtWidgets.QWidget):
 
         self.setStyleSheet('background-color: #A4A3A3;')
 
-        self.first_name_line = QtWidgets.QLineEdit()
+        self.first_name_line = line_module.MyLine()
         self.first_name_line.setPlaceholderText('Name')
-        self.first_name_line.setStyleSheet('background-color: #FFFFFF;')
 
-        self.last_name_line = QtWidgets.QLineEdit()
+        self.last_name_line = line_module.MyLine()
         self.last_name_line.setPlaceholderText('Surname')
-        self.last_name_line.setStyleSheet('background-color: #FFFFFF;')
 
-        self.email_line = QtWidgets.QLineEdit()
+        self.email_line = line_module.MyLine()
         self.email_line.setPlaceholderText('Email')
-        self.email_line.setStyleSheet('background-color: #FFFFFF;')
 
-        self.password_line = qtwidgets.PasswordEdit()
+        self.password_line = line_module.PasswordEdit()
         self.password_line.setPlaceholderText('Password')
-        self.password_line.setStyleSheet('background-color: #FFFFFF;')
+        self.password_line.change_font_color('#fff')
 
-        self.password_check_line = qtwidgets.PasswordEdit()
+        self.password_check_line = line_module.PasswordEdit()
         self.password_check_line.setPlaceholderText('Confirm password')
-        self.password_check_line.setStyleSheet('background-color: #FFFFFF;')
+        self.password_check_line.change_font_color('#fff')
 
         self.first_name_btn = MyButton()
         self.first_name_btn.setIcon(QtGui.QIcon(login.resource_path(r'icons/at.png')))

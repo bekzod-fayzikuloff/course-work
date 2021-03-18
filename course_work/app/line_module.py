@@ -1,5 +1,6 @@
-from PyQt5 import QtWidgets, QtGui
 import main
+import qtwidgets
+from PyQt5 import QtWidgets, QtGui
 
 
 class MyLine(QtWidgets.QLineEdit):
@@ -48,3 +49,24 @@ class MyLine(QtWidgets.QLineEdit):
             }  
         """ % size
         self.setStyleSheet(_style)
+
+
+class PasswordEdit(qtwidgets.PasswordEdit):
+
+    __style = """
+        border: 2px solid #fff;
+        border-radius: 7px;
+        background-color: #3C3F41;
+        color: #9E9FA0;
+        font-size: 12px;
+        font-style: oblique;
+        font-size-adjust: 0.7;
+        font-weight: 700; 
+        """
+
+    def __init__(self):
+        super().__init__()
+        self.setStyleSheet(self.__class__.__style)
+
+    def change_font_color(self, color):
+        self.setStyleSheet(self.styleSheet() + f'color: {color}')

@@ -101,15 +101,20 @@ class AdminApp(QtWidgets.QWidget):
         self.medicine_description.setMinimumHeight(175)
         self.medicine_description.setPlaceholderText('Описания лекарства')
 
-        self.medicine_price = QtWidgets.QDoubleSpinBox()
+        self.medicine_price = text_edit.DoubleSpinBox()
+        self.medicine_price.change_font_color('#EBEBEB')
         self.medicine_price.setMaximum(1000000)
-        self.medicine_date_of_manufacture = QtWidgets.QDateEdit()
 
-        self.medicine_shelf_life = QtWidgets.QDateEdit()
+        self.medicine_date_of_manufacture = text_edit.DateEdit()
+        self.medicine_date_of_manufacture.change_font_color('#EBEBEB')
+
+        self.medicine_shelf_life = text_edit.DateEdit()
+        self.medicine_shelf_life.change_font_color('#EBEBEB')
 
         self.medicine_date_of_manufacture.setDate(QDate(2020, 1, 1))
         self.medicine_shelf_life.setDate(QDate(2020, 1, 1))
-        self.maker_medicine_id = QtWidgets.QComboBox()
+        self.maker_medicine_id = text_edit.ComboBox()
+        self.maker_medicine_id.change_font_color('#EBEBEB')
 
         for maker in Maker.select():
             self.maker_medicine_id.addItem(maker.company_name)

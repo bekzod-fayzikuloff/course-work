@@ -50,7 +50,7 @@ class Widget(QtWidgets.QWidget):
         self.admin_app = admin.AdminApp()
 
         # -------------------------------------
-        self.main_app = main.MainAppWindow()
+        self.main_app = main.MainApp()
         # -------------------------------------
 
         self.lineEdit_email = QtWidgets.QLineEdit()
