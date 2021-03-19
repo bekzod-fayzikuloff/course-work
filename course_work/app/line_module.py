@@ -70,3 +70,68 @@ class PasswordEdit(qtwidgets.PasswordEdit):
 
     def change_font_color(self, color):
         self.setStyleSheet(self.styleSheet() + f'color: {color}')
+
+
+class ScrollBar(QtWidgets.QScrollBar):
+
+    __style = """
+            QScrollBar {
+                width: 15px;
+                margin: 45px 0 45px 0;
+                background: #fff;
+            }
+
+            QScrollBar::handle {
+                border: 2px solid grey;
+                background: white;
+                max-height: 7px;
+            }
+
+            QScrollBar::add-line:vertical {
+                border: 2px solid grey;
+                background: none;
+                height: 45px;
+                subcontrol-position: bottom;
+                subcontrol-origin: margin;
+            }
+
+            QScrollBar::sub-line:vertical {
+                border: 2px solid grey;
+                background: none;
+                height: 45px;
+                subcontrol-position: top;
+                subcontrol-origin: margin;
+            }
+
+            QScrollBar::up-arrow:vertical {
+                subcontrol-position: bottom;
+                subcontrol-origin: margin;
+                {upArrow}
+            }
+
+            QScrollBar::down-arrow:vertical {
+                subcontrol-position: bottom;
+                subcontrol-origin: margin;
+                {downArrow}
+            }
+
+            QScrollBar::left-arrow:vertical {
+                subcontrol-position: bottom;
+                subcontrol-origin: margin;
+                {leftArrow}
+            }
+
+            QScrollBar::right-arrow:vertical {
+                subcontrol-position: bottom;
+                subcontrol-origin: margin;
+                {rightArrow}
+            }
+    """
+
+    def __init__(self):
+        super().__init__()
+        # self.setSingleStep(7)
+        self.setMaximum(1)
+        self.setMinimum(1)
+        self.setPageStep(1)
+        self.setStyleSheet(self.__class__.__style)

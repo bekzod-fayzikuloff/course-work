@@ -2,11 +2,12 @@ import random
 import sys
 
 import admin_panel
+import line_module
 
 from PyQt5 import QtWidgets, QtGui, QtCore
 from course_work.db.models import *
 
-med_icons = [r'icons/med.png', r'icons/med1.png', r'icons/med2.png']
+med_icons = [r'icons/med.png', r'icons/cad.png', r'icons/Medicine.png']
 font_family = 'Century Gothic'
 
 
@@ -17,14 +18,8 @@ def spaces(count: int):
 class MedicineAppWidget(QtWidgets.QWidget):
 
     __css_label = """
-        QLabel {
             border: 2px solid #CFA0E9;
             background-color: #fff;
-        }
-        QLabel:hover {
-            border: 2px solid #E1E1E1;
-            background-color: #F5F5F5;
-        }
     """
 
     def __init__(self, parent=None):
@@ -88,11 +83,13 @@ class MainAppWindow(QtWidgets.QListWidget):
         self.setMinimumSize(800, 500)
         self.setStyleSheet('background-color: #fff;')
         self.setFrameShape(self.NoFrame)
-        # self.setFlow(self.LeftToRight)
-        # self.setWrapping(True)
+        self.setFlow(self.TopToBottom)
+        self.setWrapping(False)
         self.setResizeMode(self.Adjust)
         self.setSelectionMode(QtWidgets.QAbstractItemView.NoSelection)
         self.clearSelection()
+        self.custom_scroll = line_module.ScrollBar()
+        self.setVerticalScrollBar(self.custom_scroll)
         self.unit_ui()
 
     def unit_ui(self, filter_=None):
@@ -113,26 +110,30 @@ class MainAppWindow(QtWidgets.QListWidget):
                 self.addItem(list_widget_item)
                 self.setItemWidget(list_widget_item, my_app_widget)
         else:
-            medicine = Medicine.select().where(
-                (Medicine.name.contains(filter_) | (Medicine.description.contains(filter_)))
-            )
-            if len(medicine) == 0:
-                self.setFont(QtGui.QFont(font_family, 14, QtGui.QFont.Bold))
-                self.addItem('По данному запросу нету пододящих результатов')
-            for med in medicine:
-                my_app_widget = MedicineAppWidget()
-                my_app_widget.set_text_title(f' {med.name} ({med.maker_id.company_name})')
-                my_app_widget.set_text_description(f'{str(med.description).capitalize()}')
-                my_app_widget.set_price(
-                    f'{med.price} ${spaces(20)}Произведен: '
-                    f'{med.date_of_manufacture}{spaces(20)} Годен до: {med.shelf_life}'
+            try:
+                medicine = Medicine.select().where(
+                    (Medicine.name.contains(filter_) | (Medicine.description.contains(filter_))) |
+                    (Medicine.shelf_life.contains(filter_)) | (Medicine.price.contains(filter_))
                 )
-                my_app_widget.set_icon(random.choice(med_icons))
+                if len(medicine) == 0:
+                    self.setFont(QtGui.QFont(font_family, 14, QtGui.QFont.Bold))
+                    self.addItem('По данному запросу нету пододящих результатов')
+                for med in medicine:
+                    my_app_widget = MedicineAppWidget()
+                    my_app_widget.set_text_title(f' {med.name} ({med.maker_id.company_name})')
+                    my_app_widget.set_text_description(f'{str(med.description).capitalize()}')
+                    my_app_widget.set_price(
+                        f'{med.price} ${spaces(20)}Произведен: '
+                        f'{med.date_of_manufacture}{spaces(20)} Годен до: {med.shelf_life}'
+                    )
+                    my_app_widget.set_icon(random.choice(med_icons))
 
-                list_widget_item = QtWidgets.QListWidgetItem(self)
-                list_widget_item.setSizeHint(my_app_widget.sizeHint())
-                self.addItem(list_widget_item)
-                self.setItemWidget(list_widget_item, my_app_widget)
+                    list_widget_item = QtWidgets.QListWidgetItem(self)
+                    list_widget_item.setSizeHint(my_app_widget.sizeHint())
+                    self.addItem(list_widget_item)
+                    self.setItemWidget(list_widget_item, my_app_widget)
+            except Exception as e:
+                print(e)
 
     def refresh(self):
         for j in range(self.count()):
@@ -151,8 +152,8 @@ class MainApp(QtWidgets.QWidget):
         self.main_panel = admin_panel.PanelApp()
 
         self.main_panel.search_line.setFont(QtGui.QFont(font_family))
-        self.main_panel.search_btn.setFont(QtGui.QFont(font_family, weight=QtGui.QFont.Bold))
-        self.main_panel.refresh_btn.setFont(QtGui.QFont(font_family, weight=QtGui.QFont.Bold))
+        self.main_panel.search_btn.setFont(QtGui.QFont(font_family, weight=1100))
+        self.main_panel.refresh_btn.setFont(QtGui.QFont(font_family, weight=1100))
         self.main_panel.take_parent_bg(parent=self)
 
         self.main_panel.refresh_btn.clicked.connect(self.medicine_refresh)

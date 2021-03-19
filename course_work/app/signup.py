@@ -59,29 +59,29 @@ class SignUpWidget(QtWidgets.QWidget):
         self.password_check_line.change_font_color('#fff')
 
         self.first_name_btn = MyButton()
-        self.first_name_btn.setIcon(QtGui.QIcon(login.resource_path(r'icons/at.png')))
+        self.first_name_btn.setIcon(QtGui.QIcon(login.resource_path(r'icons/login.png')))
         self.first_name_btn.without_hover('#A4A3A3')
 
         self.last_name_btn = MyButton()
-        self.last_name_btn.setIcon(QtGui.QIcon(login.resource_path('icons/at.png')))
+        self.last_name_btn.setIcon(QtGui.QIcon(login.resource_path('icons/login.png')))
         self.last_name_btn.without_hover('#A4A3A3')
 
         self.email_btn = MyButton()
-        self.email_btn.setIcon(QtGui.QIcon(login.resource_path('icons/at.png')))
+        self.email_btn.setIcon(QtGui.QIcon(login.resource_path('icons/login.png')))
         self.email_btn.without_hover('#A4A3A3')
 
         self.password_btn = MyButton()
-        self.password_btn.setIcon(QtGui.QIcon(login.resource_path('icons/at.png')))
+        self.password_btn.setIcon(QtGui.QIcon(login.resource_path('icons/login.png')))
         self.password_btn.without_hover('#A4A3A3')
 
         self.password_check_btn = MyButton()
-        self.password_check_btn.setIcon(QtGui.QIcon(login.resource_path('icons/at.png')))
+        self.password_check_btn.setIcon(QtGui.QIcon(login.resource_path('icons/login.png')))
         self.password_check_btn.without_hover('#A4A3A3')
 
         self.label = QtWidgets.QLabel('all widgets need fill correct')
         self.label.hide()
 
-        self.acceptButton = MyButton('signup')
+        self.acceptButton = MyButton('Signup')
         self.acceptButton.change_hover('#198754')
         self.acceptButton.setMinimumWidth(130)
         self.acceptButton.clicked.connect(self.register)
