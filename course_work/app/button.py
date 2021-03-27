@@ -11,7 +11,8 @@ class MyButton(QtWidgets.QPushButton):
         QPushButton{
             background-color: #3C3F41;
             color: #E1E1E1;
-            border-radius: 10px;        
+            border-radius: 10px;
+            transition: .5s;        
         }
         QPushButton:hover {
         background-color: #A648C7;

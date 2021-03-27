@@ -134,6 +134,10 @@ class Widget(QtWidgets.QWidget):
                 print(e)
 
     def signup(self):
+        """
+        Метод служуший для октрытия окна регистрации
+        :return None:
+        """
         self.sign_up.show()
 
 

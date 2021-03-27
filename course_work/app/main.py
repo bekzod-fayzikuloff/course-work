@@ -16,6 +16,10 @@ def spaces(count: int):
 
 
 class MedicineAppWidget(QtWidgets.QWidget):
+    """
+    Класс MedicineAppWidget наследуется от класса QtWidgets.QWidget в нутри которого мы создаем экземпляры класса
+    QtWidgets.QLabel и методы которые позволяют нам изменять содержимое наших экземпляров
+    """
 
     __css_label = """
             border: 2px solid #CFA0E9;
@@ -60,22 +64,49 @@ class MedicineAppWidget(QtWidgets.QWidget):
         self.setLayout(self.allHBox)
 
     def set_text_title(self, text: str):
+        """
+        Метод который принемает параметр text и перезаписывает содержимое нашего атрибута self.text_title
+        :param text: --> строковой тип данных
+        :return None:
+        """
         self.text_title.setFont(QtGui.QFont(font_family, 13, QtGui.QFont.Bold))
         self.text_title.setText(text)
 
     def set_text_description(self, text: str):
+        """
+        Метод который принемает параметр text и перезаписывает содержимое нашего атрибута self.text_description
+        :param text: --> строковой тип данных
+        :return None:
+        """
         self.text_description.setFont(QtGui.QFont(font_family, 12, QtGui.QFont.Bold))
         self.text_description.setText(text)
 
     def set_price(self, price):
+        """
+        Метод который принемает параметр text и перезаписывает содержимое нашего атрибута self.text_info
+        :param price: --> строковой тип данных или (int, float)
+        :return None:
+        """
         self.text_info.setFont(QtGui.QFont(font_family, 10, QtGui.QFont.Bold))
         self.text_info.setText(str(price))
 
     def set_icon(self, path: str):
+        """
+        Метод который принемает параметр text и перезаписывает содержимое нашего атрибута self.iconLabel то есть
+        ставит иконку для нашего экземпляра класса QLabel
+        :param path: --> строковой тип данных(который должен быть относительным или абсолютным путем до файла)
+        :return None:
+        """
         self.iconLabel.setPixmap(QtGui.QPixmap(path).scaled(100, 100))
 
 
 class MainAppWindow(QtWidgets.QListWidget):
+
+    """
+        Класс MainAppWindow наследуется от класса QtWidgets.QListWidget -> внутри него мы реализуем отображение
+        всех элементов из БД а также методы реализации поиска по ключевым словам и значениям из этих данных
+        и проведем некоторые манипуляии позволяющие изменить внешний вид нашего приложения
+    """
 
     def __init__(self):
         super().__init__()
@@ -93,6 +124,14 @@ class MainAppWindow(QtWidgets.QListWidget):
         self.unit_ui()
 
     def unit_ui(self, filter_=None):
+        """
+        Метод который ренализует основную часть всей выпоняемой нами работы так как он принемает на себя роль регулятора
+        который при передаче аргумента filter_ должен производить логику выборки информации из базы данных а так же его
+        роль нельзя переоценит при моменте когда нам нужно обновить содержание(информацию из БД) так как мы просто
+        вызываем данную функцию не передавая никаких параметров
+        :param filter_: -> параметр выборки данных из базы данных если он не передан то его значение по умолчанию ->None
+        :return None:
+        """
         if not filter_:
             medicine = Medicine.select().order_by()
             for med in medicine:
@@ -111,9 +150,10 @@ class MainAppWindow(QtWidgets.QListWidget):
                 self.setItemWidget(list_widget_item, my_app_widget)
         else:
             try:
-                medicine = Medicine.select().where(
+                medicine = Medicine.select().join(Maker).where(
                     (Medicine.name.contains(filter_) | (Medicine.description.contains(filter_))) |
-                    (Medicine.shelf_life.contains(filter_)) | (Medicine.price.contains(filter_))
+                    (Medicine.shelf_life.contains(filter_)) | (Medicine.price.contains(filter_)) |
+                    (Medicine.maker_id.company_name.contains(filter_))
                 )
                 if len(medicine) == 0:
                     self.setFont(QtGui.QFont(font_family, 14, QtGui.QFont.Bold))
@@ -136,13 +176,21 @@ class MainAppWindow(QtWidgets.QListWidget):
                 print(e)
 
     def refresh(self):
+        """
+        Метод который очищает содержимое Внешнего окна и просто вызывает метод self.unit_ui() -> без аргуменнов что
+        позволит нам просто обновить страницу с информацией о лекарствах
+        :return None:
+        """
         for j in range(self.count()):
             self.takeItem(0)
         self.unit_ui()
 
 
 class MainApp(QtWidgets.QWidget):
-
+    """
+        Главное окно нашего приложения в нем мы компануем все элементы нашего главного окна в одно приложение
+        в котором есть панель для поиска по ключевым словам а также есть возможность внесения различной информации
+    """
     def __init__(self):
         super().__init__()
         self.setContentsMargins(0, 0, 0, 0)
@@ -167,9 +215,17 @@ class MainApp(QtWidgets.QWidget):
         self.setLayout(self.vbox)
 
     def medicine_refresh(self):
+        """
+        Обнавляем содержимое нашего главного окна
+        :return None:
+        """
         self.main_app.refresh()
 
     def medicine_search(self):
+        """
+        Производим удаление и всех элементов и производим поиск по ключевому слову
+        :return None:
+        """
         filter_ = self.main_panel.search_line.text()
         for med in range(self.main_app.count()):
             self.main_app.takeItem(0)

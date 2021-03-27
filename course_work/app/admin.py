@@ -10,7 +10,7 @@ import text_edit
 from PyQt5.QtCore import QDate
 from PyQt5 import QtWidgets, QtGui, QtCore
 
-from course_work.app import main
+from course_work.app import main, medicine_edit
 from course_work.app.colors import BColors
 from course_work.db.models import *
 
@@ -35,6 +35,7 @@ class AdminApp(QtWidgets.QWidget):
         self.setWindowTitle('Admin Panel')
         self.resize(620, 340)
         self.setStyleSheet('background-color: #fff;')
+        self.edit_window = None
         self.maker_app = main.MainApp()
 
         self.profession_name = line_module.MyLine()
@@ -124,13 +125,22 @@ class AdminApp(QtWidgets.QWidget):
         self.add_medicine.setMinimumWidth(250)
         self.add_medicine.clicked.connect(self.add_medicine_method)
 
+        self.edit_medicine_btn = button.MyButton('Изменить информацию')
+        self.edit_medicine_btn.change_hover('#87EDFF')
+        self.edit_medicine_btn.clicked.connect(self.edit_medicine)
+
+        self.buttons_hbox = QtWidgets.QHBoxLayout()
+        self.buttons_hbox.addWidget(self.add_medicine)
+        self.buttons_hbox.addWidget(self.edit_medicine_btn)
+
         self.vbox2.addWidget(self.medicine_name_line)
         self.vbox2.addWidget(self.medicine_description)
         self.vbox2.addWidget(self.medicine_price)
         self.vbox2.addWidget(self.medicine_date_of_manufacture)
         self.vbox2.addWidget(self.medicine_shelf_life)
         self.vbox2.addWidget(self.maker_medicine_id)
-        self.vbox2.addWidget(self.add_medicine, alignment=QtCore.Qt.AlignCenter)
+
+        self.vbox2.addLayout(self.buttons_hbox)
 
         self.hbox1 = QtWidgets.QHBoxLayout()
         self.hbox1.addLayout(self.vbox2)
@@ -139,7 +149,7 @@ class AdminApp(QtWidgets.QWidget):
         self.icon_btn.setIcon(QtGui.QIcon(login.resource_path('icons/caduceus.png')))
         self.icon_btn.setIconSize(QtCore.QSize(50, 50))
         self.icon_btn.without_hover('#fff')
-        self.icon_btn.clicked.connect(self.add_maker)
+        self.icon_btn.clicked.connect(self.open_market)
 
         self.hbox1.addWidget(self.icon_btn)
         self.setLayout(self.hbox1)
@@ -239,8 +249,23 @@ class AdminApp(QtWidgets.QWidget):
             self.medicine_name_line.setPlaceholderText('Все поля должны быть заполнены')
             self.medicine_description.setPlaceholderText('Все поля должны быть заполнены')
 
-    def add_maker(self):
+    def open_market(self):
+        """
+            Метод при вызове которого мы обновляем содержимое нашего главного окна и  далее открываем его
+            дав доступ на просмотр всего содержимого в нашей аптеке
+        :return None:
+        """
+        self.maker_app.main_app.refresh()
         self.maker_app.show()
+
+    def edit_medicine(self):
+        """
+            Метод при вызове которого мы атрибут экземпляра edit_window определяем как объект класса MedicineEdit
+            и  далее открываем его дав доступ на редактирование содерджимого в нашей аптеке
+        :return None:
+        """
+        self.edit_window = medicine_edit.MedicineEdit()
+        self.edit_window.show()
 
 
 if __name__ == '__main__':

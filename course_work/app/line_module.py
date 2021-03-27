@@ -4,6 +4,9 @@ from PyQt5 import QtWidgets, QtGui
 
 
 class MyLine(QtWidgets.QLineEdit):
+    """
+        Класс MyLine явсляется наследником класса QLineEdit в котором мы стилизуем экземпляры нашего класса
+    """
     __style = """
         QLineEdit {
             background-color: #3C3F41;
@@ -30,6 +33,11 @@ class MyLine(QtWidgets.QLineEdit):
         self.setFont(QtGui.QFont(main.font_family))
 
     def change_font_size(self, size: int):
+        """
+        Метод в котором мы изменяем размер шрифта нашего текстового поля
+        :param size: --> принемает параметр size который является целым числом
+        :return None: ничего не возвращает
+        """
         _style = """
             QLineEdit {
                 background-color: #3C3F41;
@@ -52,6 +60,10 @@ class MyLine(QtWidgets.QLineEdit):
 
 
 class PasswordEdit(qtwidgets.PasswordEdit):
+    """
+        Класс PasswordEdit явсляется наследником класса qtwidgets.PasswordEdit
+        в котором мы стилизуем экземпляры нашего класса
+    """
 
     __style = """
         border: 2px solid #fff;
@@ -68,11 +80,21 @@ class PasswordEdit(qtwidgets.PasswordEdit):
         super().__init__()
         self.setStyleSheet(self.__class__.__style)
 
-    def change_font_color(self, color):
+    def change_font_color(self, color: str):
+        """
+        Метод в котором мы изменяем цвет шрифта нашего текстового поля
+        :param color: --> принемает параметр color который является строковым типом данных
+        :return None: ничего не возвращает
+        """
         self.setStyleSheet(self.styleSheet() + f'color: {color}')
 
 
 class ScrollBar(QtWidgets.QScrollBar):
+
+    """
+        Класс ScrollBar явсляется наследником класса QtWidgets.QScrollBar
+        в котором мы стилизуем экземпляры нашего класса
+    """
 
     __style = """
             QScrollBar {

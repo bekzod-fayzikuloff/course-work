@@ -3,12 +3,14 @@ import login
 import line_module
 from PyQt5 import QtWidgets, QtGui
 
-
 from course_work.app import button
 
 
 class PanelApp(QtWidgets.QWidget):
-
+    """
+    Класс PanelApp является классом наследником класса QtWidgets.QWidget в котором мы описываем некоторый функцианал и
+    разделяем класса на несколько модулей что позволяет легче разобраться в написанном коде
+    """
     def __init__(self):
         super().__init__()
         self.setMaximumHeight(60)
@@ -34,8 +36,16 @@ class PanelApp(QtWidgets.QWidget):
         self.setLayout(self.hbox)
 
     def take_parent_bg(self, parent):
-        parent.styleSheet()
-        self.setStyleSheet(parent.styleSheet())
+        """
+        Метод при вызове которого мы получаем стиль передоваемого параметра
+        и зададим этот стиль нашему экземпляру класса
+        :return None:
+        """
+        try:
+            parent.styleSheet()
+            self.setStyleSheet(parent.styleSheet())
+        except Exception as e:
+            print(e)
 
 
 if __name__ == '__main__':
