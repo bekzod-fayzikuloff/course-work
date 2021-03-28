@@ -1,9 +1,12 @@
-import sys
 from PyQt5 import QtWidgets, QtGui
 import main
 
 
 class BaseStyle:
+    """
+        Некий базовый класс со своими атрибутами которые мы будем использовать для наших классов
+        которые будут наследоваться от него
+    """
     _style = """
         border: 2px solid black; 
         font-size:13px;
@@ -24,6 +27,11 @@ class BaseStyle:
 
 
 class TextArea(QtWidgets.QTextEdit, BaseStyle):
+    """
+        Класс TextArea наследуется от класса QtWidgets.QTextEdit и BaseStyle в котором мы протсо вызываем методы
+        класса QtWidgets.QTextEdit(setStyleSheet() и setFont()) передаем и артбут базового класса и атрибут с модуля
+        main который мы импортируем
+    """
 
     def __init__(self):
         super().__init__()
@@ -32,6 +40,11 @@ class TextArea(QtWidgets.QTextEdit, BaseStyle):
 
 
 class ComboBox(QtWidgets.QComboBox, BaseStyle):
+    """
+        Класс ComboBox наследуется от класса QtWidgets.QComboBox и BaseStyle в котором мы протсо вызываем методы
+        класса QtWidgets.QTextEdit(setStyleSheet() и setFont()) передаем и артбут базового класса и атрибут с модуля
+        main который мы импортируем
+    """
 
     def __init__(self):
         super().__init__()
@@ -39,31 +52,51 @@ class ComboBox(QtWidgets.QComboBox, BaseStyle):
         self.setFont(QtGui.QFont(main.font_family))
 
     def change_font_color(self, color):
+        """
+        Метод который изменяет цвет текста экземпляра класса
+        :param color:
+        :return None:
+        """
         self.setStyleSheet(self.styleSheet() + f'color: {color}')
 
 
 class DateEdit(QtWidgets.QDateEdit, BaseStyle):
+    """
+        Класс DateEdit наследуется от класса QtWidgets.QDateEdit и BaseStyle в котором мы протсо вызываем методы
+        класса QtWidgets.QDateEdit(setStyleSheet() ) передаем и артбут базового класса
+    """
 
     def __init__(self):
         super().__init__()
         self.setStyleSheet(super()._style_edit)
 
     def change_font_color(self, color):
+        """
+        Метод который изменяет цвет текста экземпляра класса
+        :param color:
+        :return None:
+        """
         self.setStyleSheet(self.styleSheet() + f'color: {color}')
 
 
 class DoubleSpinBox(QtWidgets.QDoubleSpinBox, BaseStyle):
-
+    """
+        Класс DoubleSpinBox наследуется от класса QtWidgets.QDoubleSpinBox и BaseStyle в
+        котором мы протсо вызываем методы класса
+        QtWidgets.QDoubleSpinBox(setStyleSheet() ) передаем и артбут базового класса
+    """
     def __init__(self):
         super().__init__()
         self.setStyleSheet(super()._style_edit)
 
     def change_font_color(self, color):
+        """
+        Метод который изменяет цвет текста экземпляра класса
+        :param color:
+        :return None:
+        """
         self.setStyleSheet(self.styleSheet() + f'color: {color}')
 
 
 if __name__ == '__main__':
-    app = QtWidgets.QApplication(sys.argv)
-    widget = TextArea()
-    widget.show()
-    sys.exit(app.exec())
+    pass

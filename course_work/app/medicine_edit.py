@@ -1,6 +1,5 @@
 import sys
 import datetime
-import threading
 
 import text_edit
 import line_module
@@ -10,11 +9,24 @@ from PyQt5 import QtWidgets, QtGui, QtCore
 
 
 def date_convert(date_arr: list):
+    """
+    Функция которая принемает список даты в формате ['day <-- строка в формате ['01'-'31']',
+                                                    'month <-- строка в формате ['01'-'12']',
+                                                    'year <-- строка в формате ['1000'-'2070']'
+                                                    ]
+    и проводит его конвертацию в объект date модуля datetime и возвращает этот объект
+    :param date_arr: --> Принемает обязательный параметр с типом list
+    :return datetime.date(int(year), int(month), int(day)): --> Возвращает объект типа datetime.date
+    """
     day, month, year = date_arr
     return datetime.date(int(year), int(month), int(day))
 
 
 class MedicineEdit(QtWidgets.QWidget):
+    """
+        Класс MedicineEdit является наследником класса QtWidgets.QWidget в котором мы определяем логику и внешний вид
+        взаимодествия для изменения данных хранящихся в базе данных (удаление и изменение)
+    """
 
     def __init__(self):
         super().__init__()
@@ -49,6 +61,7 @@ class MedicineEdit(QtWidgets.QWidget):
         self.setLayout(self.vbox)
 
     def delete_med(self):
+        """ Метод который удаляет занчение из таблицы в базе данных """
         query_text = self.medicine_name.currentText()
         record = models.Medicine.get(models.Medicine.name == query_text)
         if models.Medicine.delete_by_id(record):
@@ -59,13 +72,27 @@ class MedicineEdit(QtWidgets.QWidget):
             print('not ok')
 
     def edit_med(self):
+        """
+            Метод который переопределяет атрибут self.edit_window делая его экземпляром класса EditWindow
+            данного модуля и передает ему в конструктор объязательный параметр для получения информации о
+            нужной нам поля в таблице базы данных
+        """
         self.edit_window = EditWindow(models.Medicine.get(models.Medicine.name == self.medicine_name.currentText()))
         self.edit_window.show()
 
 
 class EditWindow(QtWidgets.QWidget):
+    """
+        Класса EditWindow наследуется от класса QtWidgetsQWidget в котором мы определяем функционал взаимодествия с
+        БД для того чтобы мы смогли редактировать ее содержание
+    """
 
     def __init__(self, pk):
+        """
+            Метод __init__ принемает в как обязательнный аргумент параметр pk <- и его помощью
+            обращается к нужной записи в Базе Данных
+        :param pk:
+        """
         super().__init__()
         self.setMinimumWidth(560)
         self.setMaximumHeight(560)
@@ -111,6 +138,10 @@ class EditWindow(QtWidgets.QWidget):
         self.setLayout(self.vbox)
 
     def set_new_data(self):
+        """
+            Метод set_new_data в момент вызыва получает значения полей нащего окна и сохраняет их в базе данных
+        :return None:
+        """
         try:
             with models.db:
                 models.Medicine.update(

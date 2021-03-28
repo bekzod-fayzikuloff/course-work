@@ -6,8 +6,6 @@ import sqlite3
 import login
 import line_module
 
-import qtwidgets
-
 from course_work.app.colors import BColors
 from course_work.app.button import MyButton
 from course_work.db.db_user import add_user_to_db, pk

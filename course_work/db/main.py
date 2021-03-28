@@ -1,10 +1,9 @@
-from models import *
+import models
 
 
 def main():
-    with db:
-        for i in Medicine.select():
-            print(i)
+    with models.db:
+        pass
 
 
 if __name__ == '__main__':
