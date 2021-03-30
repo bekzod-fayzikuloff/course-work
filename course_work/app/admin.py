@@ -10,7 +10,8 @@ import text_edit
 from PyQt5.QtCore import QDate
 from PyQt5 import QtWidgets, QtGui, QtCore
 
-from course_work.app import main, medicine_edit
+from course_work.app import main
+from course_work.app import medicine_edit
 from course_work.app.colors import BColors
 from course_work.db.models import *
 

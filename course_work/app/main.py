@@ -3,6 +3,7 @@ import sys
 
 import admin_panel
 import line_module
+# import sidebar_panel
 
 from PyQt5 import QtWidgets, QtGui, QtCore
 from course_work.db.models import *
@@ -34,6 +35,7 @@ class MedicineAppWidget(QtWidgets.QWidget):
 
         self.text_title = QtWidgets.QLabel()
         self.text_title.setMargin(10)
+        self.text_title.setMaximumHeight(40)
         self.text_title.setStyleSheet('background-color: #fff;')
 
         self.text_title.setContentsMargins(0, 0, 0, -20)
@@ -43,7 +45,8 @@ class MedicineAppWidget(QtWidgets.QWidget):
         self.text_description.setStyleSheet(self.__class__.__css_label)
 
         self.text_info = QtWidgets.QLabel()
-        self.text_info.setMargin(10)
+        self.text_info.setMargin(5)
+        self.text_info.setMaximumHeight(30)
         self.text_info.setStyleSheet(self.__class__.__css_label)
 
         self.hbox_med = QtWidgets.QHBoxLayout()
@@ -212,6 +215,10 @@ class MainApp(QtWidgets.QWidget):
         self.vbox = QtWidgets.QVBoxLayout()
         self.vbox.addWidget(self.main_panel)
         self.vbox.addWidget(self.main_app)
+        # self.hbox = QtWidgets.QHBoxLayout()
+        # self.hbox.addWidget(sidebar_panel.SideBar())
+        # self.hbox.addLayout(self.vbox)
+        # self.setLayout(self.hbox)
         self.setLayout(self.vbox)
 
     def medicine_refresh(self):
