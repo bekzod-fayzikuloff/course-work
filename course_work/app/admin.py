@@ -2,17 +2,18 @@ import sys
 import time
 import random
 
-import button
-import login
-import line_module
-import text_edit
-
 from PyQt5.QtCore import QDate
 from PyQt5 import QtWidgets, QtGui, QtCore
+
+from course_work.app import button
+from course_work.app import login
+from course_work.app import line_module
+from course_work.app import text_edit
 
 from course_work.app import main
 from course_work.app import medicine_edit
 from course_work.app.colors import BColors
+from course_work.app.conf_app import set_gradient
 from course_work.db.models import *
 
 start_time = time.time()
@@ -32,65 +33,66 @@ class AdminApp(QtWidgets.QWidget):
         процесс манипуляции с этими экземплярами с помощью их методов и свойст.
         """
         super().__init__()
-        self.setWindowIcon(QtGui.QIcon(login.resource_path(r'icons/admin.png')))
+        self.setWindowIcon(QtGui.QIcon(login.resource_path(r'course_work/app/icons/admin.png')))
+        # print(login.resource_path(r'icons\admin.png'))
         self.setWindowTitle('Admin Panel')
         self.resize(620, 340)
-        self.setStyleSheet('background-color: #fff;')
+        # self.setStyleSheet('background-color: #fff;')
         self.edit_window = None
         self.maker_app = main.MainApp()
 
-        self.profession_name = line_module.MyLine()
-        self.profession_name.change_font_size(12)
-        self.profession_name.setPlaceholderText('Названия профессии в вашей аптеке')
+        # self.profession_name = line_module.MyLine()
+        # self.profession_name.change_font_size(12)
+        # self.profession_name.setPlaceholderText('Названия профессии в вашей аптеке')
 
-        self.experience = line_module.MyLine()
-        self.experience.change_font_size(12)
-        self.experience.setPlaceholderText('Назвние опыта в нужной в вашей аптеке')
+        # self.experience = line_module.MyLine()
+        # self.experience.change_font_size(12)
+        # self.experience.setPlaceholderText('Назвние опыта в нужной в вашей аптеке')
 
-        self.wage = line_module.MyLine()
-        self.wage.change_font_size(12)
-        self.wage.setPlaceholderText('Заработная плата данной профессии')
+        # self.wage = line_module.MyLine()
+        # self.wage.change_font_size(12)
+        # self.wage.setPlaceholderText('Заработная плата данной профессии')
 
-        self.button = button.MyButton('Добавить профессию')
-        self.button.change_hover('#38CD54')
-        self.button.setMinimumWidth(190)
+        # self.button = button.MyButton('Добавить профессию')
+        # self.button.change_hover('#38CD54')
+        # self.button.setMinimumWidth(190)
 
-        self.button.clicked.connect(self.add_employee_func)
+        # self.button.clicked.connect(self.add_employee_func)
 
-        self.vbox = QtWidgets.QVBoxLayout()
-        self.vbox.addWidget(self.profession_name)
-        self.vbox.addWidget(self.experience)
-        self.vbox.addWidget(self.wage)
-        self.vbox.addWidget(self.button, alignment=QtCore.Qt.AlignCenter)
+        # self.vbox = QtWidgets.QVBoxLayout()
+        # self.vbox.addWidget(self.profession_name)
+        # self.vbox.addWidget(self.experience)
+        # self.vbox.addWidget(self.wage)
+        # self.vbox.addWidget(self.button, alignment=QtCore.Qt.AlignCenter)
 
         # -------------------------------
 
-        self.person_name = line_module.MyLine()
-        self.person_name.change_font_size(12)
-        self.person_name.setPlaceholderText('Имя сотрудника в аптеке')
+        # self.person_name = line_module.MyLine()
+        # self.person_name.change_font_size(12)
+        # self.person_name.setPlaceholderText('Имя сотрудника в аптеке')
 
-        self.person_lastname = line_module.MyLine()
-        self.person_lastname.change_font_size(12)
-        self.person_lastname.setPlaceholderText('Фамилия сотрудника в аптеке')
-        self.person_profession_id = text_edit.ComboBox()
+        # self.person_lastname = line_module.MyLine()
+        # self.person_lastname.change_font_size(12)
+        # self.person_lastname.setPlaceholderText('Фамилия сотрудника в аптеке')
+        # self.person_profession_id = text_edit.ComboBox()
 
-        for profession in Profession.select():
-            self.person_profession_id.addItem(profession.profession)
+        # for profession in Profession.select():
+        #     self.person_profession_id.addItem(profession.profession)
 
-        self.add_staff = button.MyButton('Добавить сотрудника')
-        self.add_staff.change_hover('#38CD54')
-        self.add_staff.setMinimumWidth(190)
-        self.add_staff.clicked.connect(self.add_staff_person)
+        # self.add_staff = button.MyButton('Добавить сотрудника')
+        # self.add_staff.change_hover('#38CD54')
+        # self.add_staff.setMinimumWidth(190)
+        # self.add_staff.clicked.connect(self.add_staff_person)
 
-        self.vbox1 = QtWidgets.QVBoxLayout()
-        self.vbox1.addWidget(self.person_name)
-        self.vbox1.addWidget(self.person_lastname)
-        self.vbox1.addWidget(self.person_profession_id)
-        self.vbox1.addWidget(self.add_staff, alignment=QtCore.Qt.AlignCenter)
+        # self.vbox1 = QtWidgets.QVBoxLayout()
+        # self.vbox1.addWidget(self.person_name)
+        # self.vbox1.addWidget(self.person_lastname)
+        # self.vbox1.addWidget(self.person_profession_id)
+        # self.vbox1.addWidget(self.add_staff, alignment=QtCore.Qt.AlignCenter)
 
         self.hbox = QtWidgets.QHBoxLayout()
-        self.hbox.addLayout(self.vbox)
-        self.hbox.addLayout(self.vbox1)
+        # self.hbox.addLayout(self.vbox)
+        # self.hbox.addLayout(self.vbox1)
 
         self.vbox2 = QtWidgets.QVBoxLayout()
         self.vbox2.addLayout(self.hbox)
@@ -122,11 +124,13 @@ class AdminApp(QtWidgets.QWidget):
             self.maker_medicine_id.addItem(maker.company_name)
 
         self.add_medicine = button.MyButton('Добавить лекарство')
+        self.add_medicine.setMaximumWidth(220)
         self.add_medicine.change_hover('#38CD54')
         self.add_medicine.setMinimumWidth(250)
         self.add_medicine.clicked.connect(self.add_medicine_method)
 
         self.edit_medicine_btn = button.MyButton('Изменить информацию')
+        self.edit_medicine_btn.setMaximumWidth(220)
         self.edit_medicine_btn.change_hover('#87EDFF')
         self.edit_medicine_btn.clicked.connect(self.edit_medicine)
 
@@ -147,13 +151,14 @@ class AdminApp(QtWidgets.QWidget):
         self.hbox1.addLayout(self.vbox2)
 
         self.icon_btn = button.MyButton()
-        self.icon_btn.setIcon(QtGui.QIcon(login.resource_path('icons/caduceus.png')))
+        self.icon_btn.setIcon(QtGui.QIcon(login.resource_path(r'course_work/app/icons/caduceus.png')))
         self.icon_btn.setIconSize(QtCore.QSize(50, 50))
         self.icon_btn.without_hover('#fff')
         self.icon_btn.clicked.connect(self.open_market)
 
         self.hbox1.addWidget(self.icon_btn)
         self.setLayout(self.hbox1)
+        set_gradient(self)
 
     def add_employee_func(self):
         """

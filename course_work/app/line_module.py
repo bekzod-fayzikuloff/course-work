@@ -1,6 +1,7 @@
-import main
-import qtwidgets
+# import qtwidgets
 from PyQt5 import QtWidgets, QtGui
+
+from course_work.app import main
 
 
 class MyLine(QtWidgets.QLineEdit):
@@ -20,7 +21,7 @@ class MyLine(QtWidgets.QLineEdit):
             font-weight: 700;
         }
         QLineEdit:hover {
-            border: 2px solid #black;
+            border: 1.2px solid black;
             background-color: #fff;
             color: black;
         }
@@ -59,7 +60,7 @@ class MyLine(QtWidgets.QLineEdit):
         self.setStyleSheet(_style)
 
 
-class PasswordEdit(qtwidgets.PasswordEdit):
+class PasswordEdit(QtWidgets.QLineEdit):
     """
         Класс PasswordEdit явсляется наследником класса qtwidgets.PasswordEdit
         в котором мы стилизуем экземпляры нашего класса

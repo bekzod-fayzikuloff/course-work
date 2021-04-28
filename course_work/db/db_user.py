@@ -1,6 +1,6 @@
 import sqlite3 as lite
 
-database = r'..\db\database.sqlite3'
+database = r'course_work\app\data\database.sqlite3'
 
 sql = """CREATE TABLE IF NOT EXISTS users(
     userid INT PRIMARY KEY,

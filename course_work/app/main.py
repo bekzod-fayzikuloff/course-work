@@ -1,14 +1,14 @@
 import random
-import sys
-
-import admin_panel
-import line_module
 # import sidebar_panel
 
 from PyQt5 import QtWidgets, QtGui, QtCore
+
+from course_work.app import admin_panel
+from course_work.app import line_module
+from course_work.app.conf_app import set_gradient
 from course_work.db.models import *
 
-med_icons = [r'icons/med.png', r'icons/cad.png', r'icons/Medicine.png']
+med_icons = [r'course_work/app/icons/med.png', r'course_work/app/icons/cad.png', r'course_work/app/icons/Medicine.png']
 font_family = 'Century Gothic'
 
 
@@ -100,7 +100,7 @@ class MedicineAppWidget(QtWidgets.QWidget):
         :param path: --> строковой тип данных(который должен быть относительным или абсолютным путем до файла)
         :return None:
         """
-        self.iconLabel.setPixmap(QtGui.QPixmap(path).scaled(100, 100))
+        self.iconLabel.setPixmap(QtGui.QPixmap(resource_path(f'{path}')).scaled(100, 100))
 
 
 class MainAppWindow(QtWidgets.QListWidget):
@@ -197,9 +197,9 @@ class MainApp(QtWidgets.QWidget):
     def __init__(self):
         super().__init__()
         self.setContentsMargins(0, 0, 0, 0)
-        self.setStyleSheet('background-color: #3C3F41;')
+        # self.setStyleSheet('background-color: #3C3F41;')
         self.setWindowTitle('Pharmacy')
-        self.setWindowIcon(QtGui.QIcon(r'icons/caduceus.png'))
+        self.setWindowIcon(QtGui.QIcon(resource_path(r'course_work/app/icons/caduceus.png')))
         self.main_panel = admin_panel.PanelApp()
 
         self.main_panel.search_line.setFont(QtGui.QFont(font_family))
@@ -210,16 +210,19 @@ class MainApp(QtWidgets.QWidget):
         self.main_panel.refresh_btn.clicked.connect(self.medicine_refresh)
         self.main_panel.search_btn.clicked.connect(self.medicine_search)
 
+        # self.sideBar = sidebar_panel.SideBar()
+
         self.main_app = MainAppWindow()
 
         self.vbox = QtWidgets.QVBoxLayout()
         self.vbox.addWidget(self.main_panel)
         self.vbox.addWidget(self.main_app)
         # self.hbox = QtWidgets.QHBoxLayout()
-        # self.hbox.addWidget(sidebar_panel.SideBar())
+        # self.hbox.addWidget(self.sideBar)
         # self.hbox.addLayout(self.vbox)
         # self.setLayout(self.hbox)
         self.setLayout(self.vbox)
+        set_gradient(self)
 
     def medicine_refresh(self):
         """
@@ -242,7 +245,7 @@ class MainApp(QtWidgets.QWidget):
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
-    id_ = QtGui.QFontDatabase.addApplicationFont(r'font/my_font.ttf')
+    id_ = QtGui.QFontDatabase.addApplicationFont(resource_path(r'course_work/app/font/my_font.ttf'))
     widget = MainApp()
     widget.show()
     sys.exit(app.exec())

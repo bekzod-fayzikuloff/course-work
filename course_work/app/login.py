@@ -3,16 +3,17 @@ import sys
 import time
 import random
 
-import main
-import admin
+# from qtwidgets import PasswordEdit
+from PyQt5 import QtWidgets, QtGui, QtCore
 
-import signup
+from course_work.app import main
+from course_work.app import admin
+
+from course_work.app import signup
 from course_work.app.button import MyButton
 from course_work.app.colors import BColors
-
-from PyQt5 import QtWidgets, QtGui, QtCore
 from course_work.db.db_user import email_is_valid, password_id_valid
-from qtwidgets import PasswordEdit
+
 
 start_time = time.time()
 
@@ -23,7 +24,7 @@ def resource_path(relative):
     if hasattr(sys, '_MEIPASS'):
         return os.path.join(sys._MEIPASS, relative)
     else:
-        return os.path.join(os.path.abspath(""), relative)
+        return os.path.join(os.path.abspath("."), relative)
 
 
 class Widget(QtWidgets.QWidget):
@@ -44,7 +45,7 @@ class Widget(QtWidgets.QWidget):
         self.setMaximumHeight(110)
         self.setStyleSheet('background-color: #3C3F41;')
         self.setWindowTitle('authenticator app')
-        self.setWindowIcon(QtGui.QIcon(resource_path(r'icons/login_ico.png')))
+        self.setWindowIcon(QtGui.QIcon(resource_path(r'course_work/app/icons/login_ico.png')))
         self.setContentsMargins(0, 0, 0, -10)
 
         self.admin_app = admin.AdminApp()
@@ -58,7 +59,7 @@ class Widget(QtWidgets.QWidget):
         self.lineEdit_email.setFont(QtGui.QFont('SansSerif', 10, QtGui.QFont.Bold))
         self.lineEdit_email.setStyleSheet('background-color: #FFFFFF;')
 
-        self.lineEdit_password = PasswordEdit()
+        self.lineEdit_password = QtWidgets.QLineEdit()
         self.lineEdit_password.setMinimumHeight(22)
         self.lineEdit_password.setFont(QtGui.QFont('SansSerif', 10, QtGui.QFont.Bold))
         self.lineEdit_password.setStyleSheet('background-color: #FFFFFF;')
@@ -66,7 +67,7 @@ class Widget(QtWidgets.QWidget):
         self.acceptButton = MyButton(' login')
         self.acceptButton.setMinimumWidth(160)
         self.acceptButton.setMaximumWidth(220)
-        self.acceptButton.setIcon(QtGui.QIcon(resource_path(r'icons/login.png')))
+        self.acceptButton.setIcon(QtGui.QIcon(resource_path(r'course_work/app/icons/login.png')))
         self.acceptButton.clicked.connect(self.user_login)
 
         self.sign_up = signup.SignUpWidget()
@@ -74,16 +75,16 @@ class Widget(QtWidgets.QWidget):
         self.signUpButton = MyButton(' Sign Up')
         self.signUpButton.setMinimumWidth(160)
         self.signUpButton.setMaximumWidth(220)
-        self.signUpButton.setIcon(QtGui.QIcon(resource_path(r'icons/add-user.png')))
+        self.signUpButton.setIcon(QtGui.QIcon(resource_path(r'course_work/app/icons/add-user.png')))
         self.signUpButton.change_hover('#198754')
         self.signUpButton.clicked.connect(self.signup)
 
         self.emailIconButton = MyButton()
-        self.emailIconButton.setIcon(QtGui.QIcon(resource_path(r'icons/at.png')))
+        self.emailIconButton.setIcon(QtGui.QIcon(resource_path(r'course_work/app/icons/at.png')))
         self.emailIconButton.without_hover('#E1E1E1')
 
         self.passwordIconButton = MyButton()
-        self.passwordIconButton.setIcon(QtGui.QIcon(resource_path(r'icons/password.png')))
+        self.passwordIconButton.setIcon(QtGui.QIcon(resource_path(r'course_work/app/icons/password.png')))
         self.passwordIconButton.setObjectName('view')
         self.passwordIconButton.without_hover('#E1E1E1')
 

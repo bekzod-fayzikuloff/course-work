@@ -1,11 +1,14 @@
 import sys
 import datetime
 
-import text_edit
-import line_module
-import button
-from course_work.db import models
 from PyQt5 import QtWidgets, QtGui, QtCore
+
+from course_work.app import text_edit
+from course_work.app.conf_app import resource_path
+from course_work.app import line_module
+from course_work.app import button
+from course_work.db import models
+from course_work.app.conf_app import set_gradient
 
 
 def date_convert(date_arr: list):
@@ -30,9 +33,12 @@ class MedicineEdit(QtWidgets.QWidget):
 
     def __init__(self):
         super().__init__()
+        self.setWindowTitle('Edition')
+        self.setWindowIcon(QtGui.QIcon(resource_path(r'course_work/app/icons/admin.png')))
         self.setMinimumWidth(400)
         self.setMaximumWidth(720)
         self.setMaximumHeight(100)
+        set_gradient(self)
 
         self.edit_window = None
         self.vbox = QtWidgets.QVBoxLayout()
@@ -62,14 +68,17 @@ class MedicineEdit(QtWidgets.QWidget):
 
     def delete_med(self):
         """ Метод который удаляет занчение из таблицы в базе данных """
-        query_text = self.medicine_name.currentText()
-        record = models.Medicine.get(models.Medicine.name == query_text)
-        if models.Medicine.delete_by_id(record):
-            self.medicine_name.clear()
-            for i in models.Medicine.select():
-                self.medicine_name.addItem(i.name)
-        else:
-            print('not ok')
+        try:
+            query_text = self.medicine_name.currentText()
+            record = models.Medicine.get(models.Medicine.name == query_text)
+            if models.Medicine.delete_by_id(record):
+                self.medicine_name.clear()
+                for i in models.Medicine.select():
+                    self.medicine_name.addItem(i.name)
+            else:
+                print('not ok')
+        except models.Medicine.DoesNotExist:
+            pass
 
     def edit_med(self):
         """
@@ -97,7 +106,8 @@ class EditWindow(QtWidgets.QWidget):
         self.setMinimumWidth(560)
         self.setMaximumHeight(560)
         self.setWindowTitle('Change Medicine Data')
-        self.setWindowIcon(QtGui.QIcon(r'icons/admin.png'))
+        self.setWindowIcon(QtGui.QIcon(resource_path(r'course_work/app/icons/admin.png')))
+        set_gradient(self)
 
         # --------- elements ui ---------#
 
@@ -123,7 +133,7 @@ class EditWindow(QtWidgets.QWidget):
         self.med_shelf_life.setDate(date_convert(shelf_life_date))
 
         self.change_info_btn = button.MyButton('Change information')
-        self.change_info_btn.setMaximumWidth(300)
+        self.change_info_btn.setMinimumWidth(200)
         self.change_info_btn.setMaximumWidth(320)
         self.change_info_btn.change_hover('#38CD54')
         self.change_info_btn.clicked.connect(self.set_new_data)

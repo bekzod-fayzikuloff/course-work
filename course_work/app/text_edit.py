@@ -1,5 +1,5 @@
 from PyQt5 import QtWidgets, QtGui
-import main
+from course_work.app import main
 
 
 class BaseStyle:

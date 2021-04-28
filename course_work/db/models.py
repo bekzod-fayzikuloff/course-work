@@ -1,8 +1,18 @@
+import os
+import sys
 from datetime import date
 
 import peewee
 
-db = peewee.SqliteDatabase(r'..\db\database.sqlite3')
+
+def resource_path(relative):
+    if hasattr(sys, '_MEIPASS'):
+        return os.path.join(sys._MEIPASS, relative)
+    else:
+        return os.path.join(os.path.abspath("."), relative)
+
+
+db = peewee.SqliteDatabase(resource_path(r'course_work\app\data\database.sqlite3'))
 
 
 class BaseModel(peewee.Model):
