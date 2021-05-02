@@ -1,3 +1,8 @@
-if __name__ == '__main__':
-    import course_work.app.run as run
-    run.start_app()
+import sys
+from PyQt5 import QtWidgets
+from course_work.app import admin
+
+app = QtWidgets.QApplication(sys.argv)
+widget = admin.AdminApp()
+widget.show()
+sys.exit(app.exec())
